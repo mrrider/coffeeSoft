@@ -1,39 +1,19 @@
-// #include "setup.h"
-// // #include "nozzle.h"
-// // #include "roll.h"
-// // #include "actions.h"
+#include "Arduino.h"
+#include "setup.h"
+#include "actions.h"
 
-// void setup() {
-//   addPins();
-// }
+Actions* actions;
+Setup* stp = new Setup();
+Servo servo;
 
-// void loop() {
-//   // rollNozzle();
-//    digitalWrite(servoPin, LOW);
-//     delayMicroseconds(1450); // Duration of the pusle in microseconds
-//     digitalWrite(servoPin, HIGH);
-//     delayMicroseconds(18550);
-//   // checkCoordAndHomeIfNeeded();
-//   // buttonTrigger();
-//   // executeNeededAction();
-// }
-
-#include <Servo.h>
-Servo myservo;  // create servo object to control a servo
 void setup() {
-  myservo.attach(9,600,2300);  // (pin, min, max)
+  stp->addPins();
+  servo = stp->setupServo();
+  actions = new Actions(servo);
 }
+
 void loop() {
-  myservo.write(0);  // tell servo to go to a particular angle
-
-  delay(1000);
-
-  myservo.write(60);
-
-  delay(1000);
-
-  myservo.write(-60);
-
-  delay(1000);
-                   
+  actions->getNozzle()->checkCoordAndHomeIfNeeded();
+  actions->buttonTrigger();
+  actions->executeNeededAction();
 }

@@ -1,15 +1,10 @@
-int rollTimes = 0;
-int nozzleStepDelay = 1100;
+#pragma once
+#include "Servo.h"
 
-void rollNozzleUp(){
-    digitalWrite(dirRollMotorPin,LOW); 
-    digitalWrite(stepRollMotorPin, HIGH);
-    delayMicroseconds(nozzleStepDelay);
-    digitalWrite(stepRollMotorPin, LOW);
-    delayMicroseconds(nozzleStepDelay);
-}
-
-void rollNozzle(){
-    digitalWrite(enableRollMotorPin, LOW);
-    rollNozzleUp();
-}
+class Roll {
+    public:   
+        Roll(Servo& servo);
+        int currentMicroseconds = 1200;
+        void moveServoSlowly(int newMicroseconds);
+        Servo servo;
+};
